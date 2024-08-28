@@ -1,8 +1,20 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+import type { Metadata } from "next";
+import { Inter as FontSans } from "next/font/google"
+import { cn } from "@/lib/utils"
+import { ThemeProvider } from "@/lib/providers/theme-provider";
+import { NextAuthProvider } from "@/lib/providers/session-provider";
+
+import { Toaster } from "@/components/ui/toaster";
+
+import "./globals.css";
+import { ClientProvider } from "@/lib/providers/client-provider";
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +28,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={cn(
+        "min-h-screen bg-background font-sans antialiased",
+        fontSans.variable
+      )}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextAuthProvider>
+            <ClientProvider>
+              {children}
+            </ClientProvider>
+            <Toaster />
+          </NextAuthProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
