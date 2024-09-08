@@ -83,4 +83,4 @@ jobs:
           server: ${{ secrets.CAPROVER_SERVER }} # CapRover server URL
           app: ${{ secrets.APP_NAME }} # CapRover app name
           token: "${{ secrets.APP_TOKEN }}" # CapRover app token
-          image: ${{ steps.meta.outputs.tags }} # Docker image to deploy
+          image: ghcr.io/${{ github.repository }}/linktree:latest
