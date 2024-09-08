@@ -1,7 +1,6 @@
 FROM node:20.16-alpine
 
 # Set working directory
-WORKDIR /app
 
 # Set environment variables
 ENV NODE_ENV=production

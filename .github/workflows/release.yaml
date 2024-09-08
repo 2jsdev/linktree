@@ -1,4 +1,5 @@
-name: Deploy to caprover instance
+# GitHub Actions workflow for deploying a Docker image to CapRover
+name: Deploy to caprover instance.
 
 # Global environment variables used throughout the workflow
 env:
@@ -23,7 +24,7 @@ jobs:
       packages: write
     steps:
       # Check out the repository code to the runner
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
 
       # Cache dependencies for faster subsequent builds
       - name: Cache
@@ -32,29 +33,28 @@ jobs:
           path: |
             ~/.npm
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('Dockerfile', 'next.config.mjs') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       # Set up the Node.js environment for the runner
-      - name: Use Node.js 18.x
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
 
       # Install project dependencies
       - run: npm ci
 
       # Build the project
-      - run: npm run build
+      - run: npm run build --if-present
 
       # Run tests if they are available
       - run: npm run test --if-present
 
       # Log into the specified Docker registry
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
           registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ github.actor }}
@@ -71,9 +71,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ${{ env.CONTEXT_DIR }}
+          context: .
           push: true
-          file: ${{ env.DOCKERFILE }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
@@ -83,5 +82,5 @@ jobs:
         with:
           server: ${{ secrets.CAPROVER_SERVER }} # CapRover server URL
           app: ${{ secrets.APP_NAME }} # CapRover app name
-          token: ${{ secrets.APP_TOKEN }} # CapRover app token
-          image: ${{ steps.meta.outputs.tags[0] }} # Docker image to deploy
+          token: "${{ secrets.APP_TOKEN }}" # CapRover app token
+          image: ${{ steps.meta.outputs.tags }} # Docker image to deploy
