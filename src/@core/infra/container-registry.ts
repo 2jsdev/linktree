@@ -16,6 +16,7 @@ import { ArchiveLinkUseCase } from "../application/useCases/ArchiveLink/ArchiveL
 import { RestoreLinkUseCase } from "../application/useCases/RestoreLink/RestoreLinkUseCase";
 import { ReorderLinksUseCase } from "../application/useCases/ReorderLinks/ReorderLinksUseCase";
 
+import { CheckUsernameAvailabilityUseCase } from "../application/useCases/CheckUsernameAvailability/CheckUsernameAvailabilityUseCase";
 import { UpdateUserProfileUseCase } from "../application/useCases/UpdateUserProfile/UpdateUserProfileUseCase";
 import { ViewUserProfileUseCase } from "../application/useCases/ViewUserProfile/ViewUserProfileUseCase";
 
@@ -34,6 +35,10 @@ container.bind<RestoreLinkUseCase>("RestoreLinkUseCase").to(RestoreLinkUseCase);
 container
   .bind<ReorderLinksUseCase>("ReorderLinksUseCase")
   .to(ReorderLinksUseCase);
+
+container
+  .bind<CheckUsernameAvailabilityUseCase>("CheckUsernameAvailabilityUseCase")
+  .to(CheckUsernameAvailabilityUseCase);
 
 container
   .bind<UpdateUserProfileUseCase>("UpdateUserProfileUseCase")

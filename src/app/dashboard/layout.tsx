@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </main>
 
           {/* Mobile Preview */}
-          <div className="w-96 bg-background h-full sticky top-0 right-8">
+          <div className="hidden lg:flex w-72 sm:w-80 md:w-96 bg-background h-full sticky top-0 right-8">
             <MobilePreview />
           </div>
         </div>

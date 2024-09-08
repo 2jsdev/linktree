@@ -15,40 +15,30 @@ export class UpdateLinkUseCase {
   ) {}
 
   async execute(data: UpdateLinkDTO): Promise<Link> {
-    try {
-      const linkId = LinkId.create(data.id);
+    const linkId = LinkId.create(data.id);
 
-      const existingLink = await this.linkRepository.findLinkById(
-        linkId.getValue()
-      );
-      if (!existingLink) {
-        throw new ValidationError("Link not found.");
-      }
-
-      const updatedUrl = data.url
-        ? Url.create(data.url)
-        : existingLink.props.url;
-
-      const updatedLink = Link.create({
-        id: linkId,
-        label: data.label ?? existingLink.label,
-        url: updatedUrl,
-        visible: data.visible ?? existingLink.visible,
-        order: data.order ?? existingLink.order,
-        userId: UserId.create(existingLink.userId),
-        createdAt: existingLink.createdAt,
-        archived: existingLink.archived,
-      });
-
-      const result = await this.linkRepository.updateLink(updatedLink);
-
-      return result;
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        throw new Error(`Validation failed: ${error.message}`);
-      }
-
-      throw new Error(`Failed to update link: ${(error as Error).message}`);
+    const existingLink = await this.linkRepository.findLinkById(
+      linkId.getValue()
+    );
+    if (!existingLink) {
+      throw new ValidationError("Link not found.");
     }
+
+    const updatedUrl = data.url ? Url.create(data.url) : existingLink.props.url;
+
+    const updatedLink = Link.create({
+      id: linkId,
+      label: data.label ?? existingLink.label,
+      url: updatedUrl,
+      visible: data.visible ?? existingLink.visible,
+      order: data.order ?? existingLink.order,
+      userId: UserId.create(existingLink.userId),
+      createdAt: existingLink.createdAt,
+      archived: existingLink.archived,
+    });
+
+    const result = await this.linkRepository.updateLink(updatedLink);
+
+    return result;
   }
 }

@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from '@/components/ui/button'
-import { Switch } from "@/components/ui/switch"
-import { Trash, Facebook, Link as LinkIcon, MessageCircle, Music, Youtube, Archive, X, GripVertical } from "lucide-react"
-import EditableInput from '../EditableInput'
-import { useArchiveLinkMutation, useDeleteLinkMutation, useUpdateLinkMutation } from '@/@core/infra/api/linksApi'
-import { selectLinkById } from '@/lib/store/slices/linksSlice'
-import { RootState } from '@/lib/store'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Switch } from "@/components/ui/switch";
+import { Trash, Facebook, Link as LinkIcon, MessageCircle, Music, Youtube, Archive, X, GripVertical } from "lucide-react";
+import EditableInput from '../EditableInput';
+import { useArchiveLinkMutation, useDeleteLinkMutation, useUpdateLinkMutation } from '@/@core/infra/api/linksApi';
+import { selectLinkById } from '@/lib/store/slices/linksSlice';
+import { RootState } from '@/lib/store';
 
 interface LinkCardProps {
-    id: string
+    id: string;
 }
 
 export default function LinkCard({ id }: LinkCardProps) {
@@ -22,60 +22,59 @@ export default function LinkCard({ id }: LinkCardProps) {
 
     const link = useSelector((state: RootState) => selectLinkById(state)(id));
 
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
-    const [showConfirmation, setShowConfirmation] = useState(false)
-
-    if (!link) return null
+    if (!link) return null;
 
     const handleSaveLabel = (label: string) => {
         updateLink({
             id,
             updatedLink: { label }
-        })
-    }
+        });
+    };
 
     const handleSaveUrl = (newUrl: string) => {
         updateLink({
             id,
             updatedLink: { url: newUrl }
-        })
-    }
+        });
+    };
 
     const handleCheck = (checked: boolean) => {
         updateLink({
             id,
             updatedLink: { visible: checked }
-        })
-    }
+        });
+    };
 
     const handleDelete = () => {
-        deleteLink(id)
-        setShowConfirmation(false)
-    }
+        deleteLink(id);
+        setShowConfirmation(false);
+    };
 
     const handleArchive = () => {
-        archiveLink(id)
-        setShowConfirmation(false)
-    }
+        archiveLink(id);
+        setShowConfirmation(false);
+    };
 
     const getIcon = (label: string) => {
         switch (label) {
-            case 'Website': return <LinkIcon className="h-5 w-5" />
-            case 'Facebook': return <Facebook className="h-5 w-5" />
-            case 'WhatsApp': return <MessageCircle className="h-5 w-5" />
-            case 'TikTok': return <Music className="h-5 w-5" />
-            case 'YouTube': return <Youtube className="h-5 w-5" />
-            default: return <LinkIcon className="h-5 w-5" />
+            case 'Website': return <LinkIcon className="h-5 w-5" />;
+            case 'Facebook': return <Facebook className="h-5 w-5" />;
+            case 'WhatsApp': return <MessageCircle className="h-5 w-5" />;
+            case 'TikTok': return <Music className="h-5 w-5" />;
+            case 'YouTube': return <Youtube className="h-5 w-5" />;
+            default: return <LinkIcon className="h-5 w-5" />;
         }
-    }
+    };
 
     return (
         <Card className="bg-background">
-            <CardContent className="flex flex-col p-4">
+            <CardContent className="flex flex-col p-2 sm:p-3 md:p-4">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 flex-grow">
-                        <GripVertical className="h-5 w-5 text-gray-400 cursor-move" aria-label="Drag to reorder" />
-                        <div className="rounded-full p-2">
+                    <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4 flex-grow">
+                        <GripVertical className="h-4 w-4 text-gray-400 cursor-move" aria-label="Drag to reorder" />
+                        <div className="rounded-full p-1 sm:p-2">
                             {getIcon(link.label)}
                         </div>
                         <div className="space-y-1 flex-grow">
@@ -89,7 +88,7 @@ export default function LinkCard({ id }: LinkCardProps) {
                             />
                         </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 sm:space-x-2">
                         <Button
                             variant="ghost"
                             size="sm"
@@ -117,8 +116,8 @@ export default function LinkCard({ id }: LinkCardProps) {
                             </div>
                         </div>
 
-                        <div className="flex justify-between items-center space-x-4 mt-2">
-                            <div className="flex flex-col items-center w-1/3 p-4 rounded-lg">
+                        <div className="flex justify-between items-center space-x-2 sm:space-x-4 mt-2">
+                            <div className="flex flex-col items-center w-1/3 p-2 md:p-4 rounded-lg">
                                 <Button
                                     variant="outline"
                                     onClick={handleDelete}
@@ -130,7 +129,7 @@ export default function LinkCard({ id }: LinkCardProps) {
                                 <span className="text-xs text-gray-600 mt-2 text-center">Delete forever.</span>
                             </div>
 
-                            <div className="flex flex-col items-center w-2/3 p-4 rounded-lg">
+                            <div className="flex flex-col items-center w-2/3 p-2 md:p-4 rounded-lg">
                                 <Button
                                     onClick={handleArchive}
                                     className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
@@ -145,5 +144,5 @@ export default function LinkCard({ id }: LinkCardProps) {
                 )}
             </CardContent>
         </Card>
-    )
+    );
 }

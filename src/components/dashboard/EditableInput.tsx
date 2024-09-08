@@ -30,7 +30,7 @@ const EditableInput: React.FC<EditableInputProps> = ({ initialValue, onSave }) =
                 />
             ) : (
                 <div className="flex items-center">
-                    <span className="truncate flex-grow" style={{ maxWidth: '35rem' }}>
+                    <span className="truncate flex-grow text-sm md:text-base lg:text-lg" style={{ maxWidth: '100%' }}>
                         {value}
                     </span>
                     <Pencil className="ml-3 h-4 w-4 cursor-pointer" onClick={() => setIsEditing(true)} />

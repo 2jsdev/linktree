@@ -6,6 +6,14 @@ import { prisma } from "../prisma";
 
 @injectable()
 export class PrismaUserRepository implements IUserRepository {
+  async findUserByUsername(username: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    return user ? UserMapper.toDomain(user) : null;
+  }
+
   async findUserByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: { email },

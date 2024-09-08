@@ -4,7 +4,6 @@ import { AddLinkDTO } from "./AddLinkDTO";
 import { Link } from "@/@core/domain/entities/Link";
 import { Url } from "@/@core/domain/value-objects/Url";
 import { LinkId } from "@/@core/domain/value-objects/LinkId";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
 import { UserId } from "@/@core/domain/value-objects/UserId";
 
 @injectable()
@@ -15,27 +14,19 @@ export class AddLinkUseCase {
   ) {}
 
   async execute(data: AddLinkDTO): Promise<Link> {
-    try {
-      const newLink = Link.create({
-        id: LinkId.create(),
-        label: data.label,
-        url: Url.create(data.url),
-        visible: data.visible ?? true,
-        order: data.order,
-        userId: UserId.create(data.userId),
-        createdAt: new Date(),
-        archived: false,
-      });
+    const newLink = Link.create({
+      id: LinkId.create(),
+      label: data.label,
+      url: Url.create(data.url),
+      visible: data.visible ?? true,
+      order: data.order,
+      userId: UserId.create(data.userId),
+      createdAt: new Date(),
+      archived: false,
+    });
 
-      const createdLink = await this.linkRepository.createLink(newLink);
+    const createdLink = await this.linkRepository.createLink(newLink);
 
-      return createdLink;
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        throw new Error(`Validation failed: ${error.message}`);
-      }
-
-      throw new Error(`Failed to create link: ${(error as Error).message}`);
-    }
+    return createdLink;
   }
 }

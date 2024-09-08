@@ -76,15 +76,15 @@ export class Link {
     this.props.order = order;
   }
 
+  // Business logic for archiving a link
   public archive() {
     this.props.archived = true;
+    this.props.visible = false;
   }
 
+  // Business logic for unarchiving a link
   public unarchive() {
     this.props.archived = false;
-  }
-
-  public hide() {
     this.props.visible = false;
   }
 

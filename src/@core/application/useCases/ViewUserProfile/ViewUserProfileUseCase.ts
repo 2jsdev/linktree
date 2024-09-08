@@ -13,23 +13,13 @@ export class ViewUserProfileUseCase {
   ) {}
 
   async execute(data: ViewUserProfileDTO): Promise<User> {
-    try {
-      const userId = UserId.create(data.userId);
+    const userId = UserId.create(data.userId);
 
-      const user = await this.userRepository.findUserById(userId.getValue());
-      if (!user) {
-        throw new ValidationError("User not found.");
-      }
-
-      return user;
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        throw new Error(`Validation failed: ${error.message}`);
-      }
-
-      throw new Error(
-        `Failed to retrieve user profile: ${(error as Error).message}`
-      );
+    const user = await this.userRepository.findUserById(userId.getValue());
+    if (!user) {
+      throw new ValidationError("User not found.");
     }
+
+    return user;
   }
 }

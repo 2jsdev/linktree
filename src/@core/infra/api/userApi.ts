@@ -12,6 +12,12 @@ export type User = {
 
 export const usersApi = appApi.injectEndpoints({
   endpoints: (build) => ({
+    checkUsernameAvailability: build.query<{ isAvailable: boolean }, string>({
+      query: (username) => ({
+        url: `/users/check-username?username=${username}`,
+        method: "GET",
+      }),
+    }),
     getUserProfile: build.query<User, void>({
       query: () => ({
         url: "/users/profile",
@@ -30,5 +36,8 @@ export const usersApi = appApi.injectEndpoints({
   }),
 });
 
-export const { useGetUserProfileQuery, useUpdateUserProfileMutation } =
-  usersApi;
+export const {
+  useCheckUsernameAvailabilityQuery,
+  useGetUserProfileQuery,
+  useUpdateUserProfileMutation,
+} = usersApi;

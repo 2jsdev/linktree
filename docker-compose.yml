@@ -1,6 +1,6 @@
 services:
-  db:
-    container_name: db
+  linktreedb:
+    container_name: linktreedb
     image: postgres:alpine
     restart: always
     ports:
@@ -8,9 +8,8 @@ services:
     env_file:
       - .env
     volumes:
-      - pg-data:/var/lib/postgresql/data
-
+      - linktree-data:/var/lib/postgresql/data
 
 volumes:
-  pg-data:
+  linktree-data:
 

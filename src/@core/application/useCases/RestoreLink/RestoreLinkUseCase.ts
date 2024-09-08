@@ -12,36 +12,24 @@ export class RestoreLinkUseCase {
   ) {}
 
   async execute(data: RestoreLinkDTO): Promise<void> {
-    try {
-      const linkId = LinkId.create(data.id);
+    const linkId = LinkId.create(data.id);
 
-      const link = await this.linkRepository.findLinkById(linkId.getValue());
+    const link = await this.linkRepository.findLinkById(linkId.getValue());
 
-      if (!link) {
-        throw new ValidationError("Link not found.");
-      }
-
-      if (link.userId !== data.userId) {
-        throw new ValidationError(
-          "You are not authorized to archive this link."
-        );
-      }
-
-      const maxOrder = await this.linkRepository.getMaxOrderForLinks(
-        data.userId
-      );
-
-      link.setOrder(maxOrder + 1);
-
-      link.unarchive();
-
-      await this.linkRepository.updateLink(link);
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        throw new Error(`Validation failed: ${error.message}`);
-      }
-
-      throw new Error(`Failed to archive link: ${(error as Error).message}`);
+    if (!link) {
+      throw new ValidationError("Link not found.");
     }
+
+    if (link.userId !== data.userId) {
+      throw new ValidationError("You are not authorized to archive this link.");
+    }
+
+    const maxOrder = await this.linkRepository.getMaxOrderForLinks(data.userId);
+
+    link.setOrder(maxOrder + 1);
+
+    link.unarchive();
+
+    await this.linkRepository.updateLink(link);
   }
 }

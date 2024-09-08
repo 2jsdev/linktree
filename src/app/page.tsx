@@ -1,52 +1,62 @@
-"use client";
+'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Input } from "@/components/ui/input"
-import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { ModeToggle } from '@/components/ModeToggle'
+import { useCheckUsernameAvailabilityQuery } from '@/@core/infra/api/userApi'
+
+const Loader = () => (
+  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+)
 
 export default function LandingPage() {
-  const router = useRouter();
-  const [username, setUsername] = useState('');
+  const router = useRouter()
+  const [username, setUsername] = useState('')
+  const [debouncedUsername, setDebouncedUsername] = useState('')
+  const prefixRef = useRef<HTMLSpanElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const prefix = `${process.env.NEXT_PUBLIC_PUBLIC_URL}/` || 'https://linktree.com/'
+
+  const { data, isLoading, isError } = useCheckUsernameAvailabilityQuery(debouncedUsername, {
+    skip: !debouncedUsername,
+  })
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedUsername(username)
+    }, 500)
+    return () => clearTimeout(handler)
+  }, [username])
+
+  useEffect(() => {
+    if (prefixRef.current && inputRef.current) {
+      const prefixWidth = prefixRef.current.offsetWidth
+      inputRef.current.style.paddingLeft = `${prefixWidth}px`
+    }
+  }, [prefix])
 
   const handleRedirect = (state?: 'signup') => {
-    const queryParams = new URLSearchParams();
+    const queryParams = new URLSearchParams()
+    if (state) queryParams.append('state', state)
+    if (username) document.cookie = `username=${username}; path=/`
 
-    if (state) {
-      queryParams.append('state', state);
-    }
-    if (username) {
-      queryParams.append('username', username);
-    }
+    const url = `/login${queryParams.toString() ? `?${queryParams}` : ''}`
+    router.push(url)
+  }
 
-    const queryString = queryParams.toString();
-    const url = `/login${queryString ? `?${queryString}` : ''}`;
-
-    router.push(url);
-  };
+  const isButtonDisabled = !data?.isAvailable || isLoading || isError || !username
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="w-full py-4 px-4 sm:px-6 lg:px-8 bg-background border-b">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-primary">
-            Linktree
-          </Link>
+          <Link href="/" className="text-2xl font-bold text-primary">Linktree</Link>
           <div className="flex items-center space-x-4">
-            <button
-              onClick={() => handleRedirect()}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => handleRedirect('signup')}
-              className={buttonVariants()}
-            >
-              Sign up free
-            </button>
+            <Button variant="ghost" onClick={() => handleRedirect()}>Sign In</Button>
             <ModeToggle />
           </div>
         </div>
@@ -61,27 +71,40 @@ export default function LandingPage() {
             Share your links, social profiles, contact info and<br />more on one page
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <div className="relative w-full sm:w-auto">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
-                linktree.io/
+          <div className="flex flex-col sm:flex-row items-center justify-center w-full max-w-lg mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="relative flex-grow w-full sm:w-auto">
+              <span ref={prefixRef} className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+                {prefix}
               </span>
               <Input
+                ref={inputRef}
                 type="text"
                 placeholder="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="pl-[5.6rem] w-full sm:w-64"
+                className="w-full pr-10"
                 aria-label="Enter your desired username"
               />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                {isLoading ? (
+                  <Loader />
+                ) : username && (
+                  <div className={`h-2 w-2 rounded-full ${data?.isAvailable && !isError ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                )}
+              </div>
             </div>
-            <button
+            <Button
               onClick={() => handleRedirect('signup')}
-              className={buttonVariants()}
+              disabled={isButtonDisabled}
             >
               Claim your Linktree
-            </button>
+            </Button>
           </div>
+          {username && !isLoading && (
+            <p className={`text-sm mt-2 ${data?.isAvailable && !isError ? 'text-green-500' : 'text-red-500'}`}>
+              {data?.isAvailable && !isError ? 'Username is available' : 'Username is not available'}
+            </p>
+          )}
         </div>
       </main>
     </div>

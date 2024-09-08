@@ -4,11 +4,11 @@ import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/lib/providers/theme-provider";
 import { NextAuthProvider } from "@/lib/providers/session-provider";
-
-import { Toaster } from "@/components/ui/toaster";
+import { ClientProvider } from "@/lib/providers/client-provider";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "./globals.css";
-import { ClientProvider } from "@/lib/providers/client-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -42,7 +42,7 @@ export default function RootLayout({
             <ClientProvider>
               {children}
             </ClientProvider>
-            <Toaster />
+            <ToastContainer />
           </NextAuthProvider>
         </ThemeProvider>
       </body>

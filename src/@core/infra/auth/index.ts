@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -68,7 +69,19 @@ export const authConfig = {
   },
   events: {
     createUser: async ({ user }) => {
-      console.log("createUser", { user });
+      const cookieStore = cookies();
+      const username = cookieStore.get("username")?.value;
+
+      if (username) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { username },
+        });
+
+        cookieStore.delete("username");
+      }
+
+      console.log("User created with username:", user);
     },
   },
 } satisfies NextAuthConfig;
