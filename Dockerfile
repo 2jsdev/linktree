@@ -1,20 +1,19 @@
 FROM node:20.16-alpine
 
 # Set working directory
+WORKDIR /app
 
-ENV NODE_ENV=production
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+# Copy only the built application files that were generated in the CI pipeline
+COPY .next ./.next
+COPY next.config.mjs ./next.config.mjs
+COPY public ./public
+COPY package.json package-lock.json ./
 
+# Install only production dependencies
+RUN npm ci --only=production
 
-# Copy the built application files
-COPY ./.next ./.next
-COPY ./next.config.mjs ./next.config.mjs
-COPY ./public ./public
-COPY ./.next/static ./_next/static
-COPY ./node_modules ./node_modules
-
+# Expose the port the app will run on
 EXPOSE 3000
 
-# Start the Node.js server
+# Start the app
 CMD ["npm", "run", "start"]
