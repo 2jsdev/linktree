@@ -8,6 +8,7 @@ export type User = {
   email: string;
   username: string;
   image: string;
+  links?: { url: string; label: string }[];
 };
 
 export const usersApi = appApi.injectEndpoints({
@@ -25,6 +26,12 @@ export const usersApi = appApi.injectEndpoints({
       }),
       providesTags: (result) => [{ type: USER }],
     }),
+    getPublicProfileByUsername: build.query<User, string>({
+      query: (username) => ({
+        url: `/users/${username}/profile`,
+        method: "GET",
+      }),
+    }),
     updateUserProfile: build.mutation<User, Partial<User>>({
       query: (data) => ({
         url: "/users/profile",
@@ -39,5 +46,6 @@ export const usersApi = appApi.injectEndpoints({
 export const {
   useCheckUsernameAvailabilityQuery,
   useGetUserProfileQuery,
+  useGetPublicProfileByUsernameQuery,
   useUpdateUserProfileMutation,
 } = usersApi;

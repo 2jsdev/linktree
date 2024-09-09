@@ -9,6 +9,7 @@ import { ILinkRepository } from "../domain/repositories/ILinkRepository";
 import { PrismaLinkRepository } from "./repositories/PrismaLinkRepository";
 
 import { GetUserLinkListUseCase } from "../application/useCases/GetUserLinkList/GetUserLinkListUseCase";
+import { GetPublicProfileByUsernameUseCase } from "../application/useCases/GetPublicProfileByUsername/GetPublicProfileByUsernameUseCase";
 import { AddLinkUseCase } from "../application/useCases/AddLink/AddLinkUseCase";
 import { UpdateLinkUseCase } from "../application/useCases/UpdateLink/UpdateLinkUseCase";
 import { RemoveLinkUseCase } from "../application/useCases/RemoveLink/RemoveLinkUseCase";
@@ -26,6 +27,9 @@ const container = new Container();
 container
   .bind<GetUserLinkListUseCase>("GetUserLinkListUseCase")
   .to(GetUserLinkListUseCase);
+container
+  .bind<GetPublicProfileByUsernameUseCase>("GetPublicProfileByUsernameUseCase")
+  .to(GetPublicProfileByUsernameUseCase);
 
 container.bind<AddLinkUseCase>("AddLinkUseCase").to(AddLinkUseCase);
 container.bind<UpdateLinkUseCase>("UpdateLinkUseCase").to(UpdateLinkUseCase);

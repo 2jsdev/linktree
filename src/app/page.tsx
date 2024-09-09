@@ -1,25 +1,21 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from '@/components/ModeToggle'
 import { useCheckUsernameAvailabilityQuery } from '@/@core/infra/api/userApi'
-
-const Loader = () => (
-  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-)
+import { Loader } from '@/components/ui/loader'
 
 export default function LandingPage() {
   const router = useRouter()
   const [username, setUsername] = useState('')
   const [debouncedUsername, setDebouncedUsername] = useState('')
-  const prefixRef = useRef<HTMLSpanElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
 
-  const prefix = `${process.env.NEXT_PUBLIC_PUBLIC_URL}/` || 'https://linktree.com/'
+  // Prefix always fixed as 'linktree.2jsdev.me/'
+  const prefix = 'linktree.2jsdev.me/'
 
   const { data, isLoading, isError } = useCheckUsernameAvailabilityQuery(debouncedUsername, {
     skip: !debouncedUsername,
@@ -31,13 +27,6 @@ export default function LandingPage() {
     }, 500)
     return () => clearTimeout(handler)
   }, [username])
-
-  useEffect(() => {
-    if (prefixRef.current && inputRef.current) {
-      const prefixWidth = prefixRef.current.offsetWidth
-      inputRef.current.style.paddingLeft = `${prefixWidth}px`
-    }
-  }, [prefix])
 
   const handleRedirect = (state?: 'signup') => {
     const queryParams = new URLSearchParams()
@@ -73,17 +62,17 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center w-full max-w-lg mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
             <div className="relative flex-grow w-full sm:w-auto">
-              <span ref={prefixRef} className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
                 {prefix}
               </span>
               <Input
-                ref={inputRef}
                 type="text"
                 placeholder="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pr-10"
+                className="w-full pl-[155px] pr-10"
                 aria-label="Enter your desired username"
+                autoComplete='off'
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 {isLoading ? (
@@ -100,7 +89,7 @@ export default function LandingPage() {
               Claim your Linktree
             </Button>
           </div>
-          {username && !isLoading && (
+          {username && !isLoading && data && (
             <p className={`text-sm mt-2 ${data?.isAvailable && !isError ? 'text-green-500' : 'text-red-500'}`}>
               {data?.isAvailable && !isError ? 'Username is available' : 'Username is not available'}
             </p>

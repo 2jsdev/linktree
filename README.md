@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Linktree Clone
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+Welcome to the **Linktree Clone**, a personalized landing page builder that empowers users to showcase all their important links—from social media profiles to websites—in one beautiful, easy-to-manage page. This project is not just a simple clone; it’s built with scalability, maintainability, and clean architecture at its core, utilizing cutting-edge web technologies to ensure seamless user experiences and smooth deployments.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: A powerful React framework for building fast, server-rendered applications.
+- **TypeScript**: Enhances code quality with static types, improving maintainability and catching errors early.
+- **Redux Toolkit**: Streamlines state management for predictable and testable application behavior.
+- **Prisma**: A modern ORM that simplifies database interactions and migrations.
+- **NextAuth**: Provides secure authentication, including Google OAuth for effortless user sign-up and login.
+- **InversifyJS**: Implements Inversion of Control (IoC) to keep components decoupled and test-friendly.
+- **Tailwind CSS**: Speeds up UI development with a utility-first approach.
+- **Shadcn**: A collection of Tailwind CSS UI components that deliver fast, responsive designs.
+- **Jest**: Ensures reliability and confidence with comprehensive unit testing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Clean Architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The project adheres to **Clean Architecture** principles, promoting a clear separation of concerns for easy scaling and testing. The architecture is divided into four distinct layers:
 
-## Learn More
+1. **Presentation Layer**: Manages the UI and user interactions.
+2. **Application Layer**: Contains use cases for business logic and orchestrates data flow between the presentation and domain layers.
+3. **Domain Layer**: Defines core business rules and entities that shape the logic.
+4. **Infrastructure Layer**: Handles data access, external services, and technical concerns.
 
-To learn more about Next.js, take a look at the following resources:
+This structured approach ensures flexibility and long-term maintainability.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Key Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- **User Authentication**: Secure sign-ups and logins via **NextAuth** using Google OAuth or email/password.
+- **Real-Time Username Availability**: Users can instantly check if their desired username is available.
+- **Link Management**: Full control to add, edit, delete, or archive links on their profile page.
+- **Responsive & Mobile-Friendly**: Optimized for both desktop and mobile, ensuring a consistent user experience.
+- **Dark Mode**: Users can toggle between light and dark themes, adding a personalized touch.
 
-## Deploy on Vercel
+## Why It’s Different
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project stands out due to its implementation of **Inversion of Control (IoC)** via **InversifyJS**, which decouples components and simplifies maintenance. The integration of **NextAuth** streamlines the authentication process, allowing users to sign up with Google in just a few clicks, enhancing user experience.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Deployment on Caprover
+
+Deployment is seamless with **Caprover**, a personal Platform-as-a-Service that simplifies server management. Docker images are stored and managed with **GitHub Container Registry**, facilitating smooth updates and versioning.
+
+## Environment Variables
+
+The project includes a `.env.example` file, detailing all necessary environment variables required to get the application up and running. This ensures an easy and quick setup for developers.
+
+## How to Get Started
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/linktree-clone.git
+   cd linktree-clone
+   ```
+
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Set Up the Database**:
+   - Add your database credentials in the `.env` file (use `.env.example` as a reference).
+   - Run Prisma migrations:
+   ```bash
+   npx prisma migrate dev
+   ```
+
+4. **Start the Server**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Open in Browser**:
+   - Navigate to [http://localhost:3000](http://localhost:3000) to see the app in action!
+
+## Wrap-Up
+
+With this Linktree Clone, you gain a robust and scalable platform built with modern web technologies and designed for maintainability. Dive in, explore, and contribute—your feedback is always welcome!
