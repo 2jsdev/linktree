@@ -1,6 +1,6 @@
-import { Url } from "../value-objects/Url";
-import { LinkId } from "../value-objects/LinkId";
-import { UserId } from "../value-objects/UserId";
+import { Url } from '../value-objects/Url';
+import { LinkId } from '../value-objects/LinkId';
+import { UserId } from '../value-objects/UserId';
 
 export type LinkProps = {
   id?: LinkId;
@@ -19,20 +19,20 @@ export class Link {
   }
 
   private validateProps(props: LinkProps): void {
-    if (!props.label || props.label.trim() === "") {
-      throw new Error("Label must not be empty.");
+    if (!props.label || props.label.trim() === '') {
+      throw new Error('Label must not be empty.');
     }
 
     if (!props.url) {
-      throw new Error("URL is required.");
+      throw new Error('URL is required.');
     }
 
-    if (!props.userId || props.userId.getValue().trim() === "") {
-      throw new Error("UserId is required.");
+    if (!props.userId || props.userId.getValue().trim() === '') {
+      throw new Error('UserId is required.');
     }
 
     if (props.order < 0) {
-      throw new Error("Order must be a non-negative integer.");
+      throw new Error('Order must be a non-negative integer.');
     }
 
     if (!props.id) {

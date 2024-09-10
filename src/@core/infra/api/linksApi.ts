@@ -1,22 +1,22 @@
-import { Link } from "@/lib/store/slices/linksSlice.js";
-import { appApi, TAGS } from "@/@core/infra/api/app";
+import { Link } from '@/lib/store/slices/linksSlice.js';
+import { appApi, TAGS } from '@/@core/infra/api/app';
 
 const { LINK } = TAGS;
 
 export const linksApi = appApi.injectEndpoints({
   endpoints: (build) => ({
     getLinks: build.query<Link[], void>({
-      query: () => "/links",
+      query: () => '/links',
       providesTags: (result) => {
-        if (!result) return [{ type: LINK, id: "LIST" }];
+        if (!result) return [{ type: LINK, id: 'LIST' }];
 
         return result.map(({ id }) => ({ type: LINK, id }));
       },
     }),
-    createLink: build.mutation<Link, Omit<Link, "id">>({
+    createLink: build.mutation<Link, Omit<Link, 'id'>>({
       query: (newLink) => ({
-        url: "/links",
-        method: "POST",
+        url: '/links',
+        method: 'POST',
         body: newLink,
       }),
       invalidatesTags: [LINK],
@@ -27,7 +27,7 @@ export const linksApi = appApi.injectEndpoints({
     >({
       query: ({ id, updatedLink }) => ({
         url: `/links/${id}`,
-        method: "PUT",
+        method: 'PUT',
         body: updatedLink,
       }),
       invalidatesTags: (result, error, { id }) => [{ type: LINK, id }],
@@ -35,14 +35,14 @@ export const linksApi = appApi.injectEndpoints({
     deleteLink: build.mutation<void, string>({
       query: (id) => ({
         url: `/links/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
       invalidatesTags: (result, error, id) => [{ type: LINK, id }],
     }),
     archiveLink: build.mutation<Link, string>({
       query: (id) => ({
         url: `/links/${id}/archive`,
-        method: "PATCH",
+        method: 'PATCH',
         body: { archived: true },
       }),
       invalidatesTags: (result, error, id) => [{ type: LINK, id }],
@@ -50,7 +50,7 @@ export const linksApi = appApi.injectEndpoints({
     restoreLink: build.mutation<Link, string>({
       query: (id) => ({
         url: `/links/${id}/archive`,
-        method: "PATCH",
+        method: 'PATCH',
         body: { archived: false },
       }),
       invalidatesTags: (result, error, id) => [{ type: LINK, id }],
@@ -60,8 +60,8 @@ export const linksApi = appApi.injectEndpoints({
       { orderedLinks: { id: string; order: number }[] }
     >({
       query: ({ orderedLinks }) => ({
-        url: "/links/reorder",
-        method: "PATCH",
+        url: '/links/reorder',
+        method: 'PATCH',
         body: { links: orderedLinks },
       }),
       invalidatesTags: [LINK],

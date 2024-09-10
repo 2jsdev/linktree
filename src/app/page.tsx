@@ -1,51 +1,59 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { ModeToggle } from '@/components/ModeToggle'
-import { useCheckUsernameAvailabilityQuery } from '@/@core/infra/api/userApi'
-import { Loader } from '@/components/ui/loader'
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { ModeToggle } from '@/components/ModeToggle';
+import { useCheckUsernameAvailabilityQuery } from '@/@core/infra/api/userApi';
+import { Loader } from '@/components/ui/loader';
 
 export default function LandingPage() {
-  const router = useRouter()
-  const [username, setUsername] = useState('')
-  const [debouncedUsername, setDebouncedUsername] = useState('')
+  const router = useRouter();
+  const [username, setUsername] = useState('');
+  const [debouncedUsername, setDebouncedUsername] = useState('');
 
   // Prefix always fixed as 'linktree.2jsdev.me/'
-  const prefix = 'linktree.2jsdev.me/'
+  const prefix = 'linktree.2jsdev.me/';
 
-  const { data, isLoading, isError } = useCheckUsernameAvailabilityQuery(debouncedUsername, {
-    skip: !debouncedUsername,
-  })
+  const { data, isLoading, isError } = useCheckUsernameAvailabilityQuery(
+    debouncedUsername,
+    {
+      skip: !debouncedUsername,
+    }
+  );
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedUsername(username)
-    }, 500)
-    return () => clearTimeout(handler)
-  }, [username])
+      setDebouncedUsername(username);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [username]);
 
   const handleRedirect = (state?: 'signup') => {
-    const queryParams = new URLSearchParams()
-    if (state) queryParams.append('state', state)
-    if (username) document.cookie = `username=${username}; path=/`
+    const queryParams = new URLSearchParams();
+    if (state) queryParams.append('state', state);
+    if (username) document.cookie = `username=${username}; path=/`;
 
-    const url = `/login${queryParams.toString() ? `?${queryParams}` : ''}`
-    router.push(url)
-  }
+    const url = `/login${queryParams.toString() ? `?${queryParams}` : ''}`;
+    router.push(url);
+  };
 
-  const isButtonDisabled = !data?.isAvailable || isLoading || isError || !username
+  const isButtonDisabled =
+    !data?.isAvailable || isLoading || isError || !username;
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="w-full py-4 px-4 sm:px-6 lg:px-8 bg-background border-b">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-primary">Linktree</Link>
+          <Link href="/" className="text-2xl font-bold text-primary">
+            Linktree
+          </Link>
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" onClick={() => handleRedirect()}>Sign In</Button>
+            <Button variant="ghost" onClick={() => handleRedirect()}>
+              Sign In
+            </Button>
             <ModeToggle />
           </div>
         </div>
@@ -54,10 +62,14 @@ export default function LandingPage() {
       <main className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-            Your one link<br />for everything
+            Your one link
+            <br />
+            for everything
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground mb-8">
-            Share your links, social profiles, contact info and<br />more on one page
+            Share your links, social profiles, contact info and
+            <br />
+            more on one page
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center w-full max-w-lg mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
@@ -72,13 +84,17 @@ export default function LandingPage() {
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full pl-[155px] pr-10"
                 aria-label="Enter your desired username"
-                autoComplete='off'
+                autoComplete="off"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                 {isLoading ? (
                   <Loader />
-                ) : username && (
-                  <div className={`h-2 w-2 rounded-full ${data?.isAvailable && !isError ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                ) : (
+                  username && (
+                    <div
+                      className={`h-2 w-2 rounded-full ${data?.isAvailable && !isError ? 'bg-green-500' : 'bg-red-500'}`}
+                    ></div>
+                  )
                 )}
               </div>
             </div>
@@ -90,12 +106,16 @@ export default function LandingPage() {
             </Button>
           </div>
           {username && !isLoading && data && (
-            <p className={`text-sm mt-2 ${data?.isAvailable && !isError ? 'text-green-500' : 'text-red-500'}`}>
-              {data?.isAvailable && !isError ? 'Username is available' : 'Username is not available'}
+            <p
+              className={`text-sm mt-2 ${data?.isAvailable && !isError ? 'text-green-500' : 'text-red-500'}`}
+            >
+              {data?.isAvailable && !isError
+                ? 'Username is available'
+                : 'Username is not available'}
             </p>
           )}
         </div>
       </main>
     </div>
-  )
+  );
 }

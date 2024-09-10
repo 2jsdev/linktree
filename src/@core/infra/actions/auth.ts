@@ -1,17 +1,17 @@
-"use server";
+'use server';
 
-import { signIn, signOut } from "../auth";
-import { redirect } from "next/navigation";
+import { signIn, signOut } from '../auth';
+import { redirect } from 'next/navigation';
 
 export async function googleSignIn() {
-  return await signIn("google", {
+  return await signIn('google', {
     redirect: true,
-    redirectTo: "/dashboard",
+    redirectTo: '/dashboard',
   });
 }
 
 export async function doSignOut() {
-  return await signOut({ redirect: true, redirectTo: "/" });
+  return await signOut({ redirect: true, redirectTo: '/' });
   await signOut();
-  redirect("/");
+  redirect('/');
 }

@@ -50,24 +50,29 @@ The project includes a `.env.example` file, detailing all necessary environment 
 ## How to Get Started
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/yourusername/linktree-clone.git
    cd linktree-clone
    ```
 
 2. **Install Dependencies**:
+
    ```bash
    npm install
    ```
 
 3. **Set Up the Database**:
+
    - Add your database credentials in the `.env` file (use `.env.example` as a reference).
    - Run Prisma migrations:
+
    ```bash
    npx prisma migrate dev
    ```
 
 4. **Start the Server**:
+
    ```bash
    npm run dev
    ```

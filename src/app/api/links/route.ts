@@ -1,19 +1,19 @@
-import { auth } from "@/@core/infra/auth";
-import { NextResponse } from "next/server";
-import { container } from "@/@core/infra/container-registry";
-import { GetUserLinkListUseCase } from "@/@core/application/useCases/GetUserLinkList/GetUserLinkListUseCase";
-import { AddLinkUseCase } from "@/@core/application/useCases/AddLink/AddLinkUseCase";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
+import { auth } from '@/@core/infra/auth';
+import { NextResponse } from 'next/server';
+import { container } from '@/@core/infra/container-registry';
+import { GetUserLinkListUseCase } from '@/@core/application/useCases/GetUserLinkList/GetUserLinkListUseCase';
+import { AddLinkUseCase } from '@/@core/application/useCases/AddLink/AddLinkUseCase';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
 
 export async function GET() {
   try {
     const GetUserLinkListUseCase = container.get<GetUserLinkListUseCase>(
-      "GetUserLinkListUseCase"
+      'GetUserLinkListUseCase'
     );
 
     const session = await auth();
     if (!session) {
-      throw new Error("User not authenticated");
+      throw new Error('User not authenticated');
     }
 
     const links = await GetUserLinkListUseCase.execute({
@@ -29,7 +29,7 @@ export async function GET() {
     }
 
     return NextResponse.json(
-      { message: "Failed to fetch links" },
+      { message: 'Failed to fetch links' },
       { status: 500 }
     );
   }
@@ -37,11 +37,11 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const AddLinkUseCase = container.get<AddLinkUseCase>("AddLinkUseCase");
+    const AddLinkUseCase = container.get<AddLinkUseCase>('AddLinkUseCase');
 
     const session = await auth();
     if (!session) {
-      throw new Error("User not authenticated");
+      throw new Error('User not authenticated');
     }
 
     const data = await req.json();
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
     return NextResponse.json(
-      { message: "Failed to create link" },
+      { message: 'Failed to create link' },
       { status: 500 }
     );
   }

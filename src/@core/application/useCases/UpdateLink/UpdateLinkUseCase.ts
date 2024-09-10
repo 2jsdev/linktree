@@ -1,16 +1,16 @@
-import { inject, injectable } from "inversify";
-import type { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { UpdateLinkDTO } from "./UpdateLinkDTO";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
-import { Url } from "@/@core/domain/value-objects/Url";
-import { Link } from "@/@core/domain/entities/Link";
-import { LinkId } from "@/@core/domain/value-objects/LinkId";
-import { UserId } from "@/@core/domain/value-objects/UserId";
+import { inject, injectable } from 'inversify';
+import type { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { UpdateLinkDTO } from './UpdateLinkDTO';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
+import { Url } from '@/@core/domain/value-objects/Url';
+import { Link } from '@/@core/domain/entities/Link';
+import { LinkId } from '@/@core/domain/value-objects/LinkId';
+import { UserId } from '@/@core/domain/value-objects/UserId';
 
 @injectable()
 export class UpdateLinkUseCase {
   constructor(
-    @inject("ILinkRepository")
+    @inject('ILinkRepository')
     private linkRepository: ILinkRepository
   ) {}
 
@@ -21,7 +21,7 @@ export class UpdateLinkUseCase {
       linkId.getValue()
     );
     if (!existingLink) {
-      throw new ValidationError("Link not found.");
+      throw new ValidationError('Link not found.');
     }
 
     const updatedUrl = data.url ? Url.create(data.url) : existingLink.props.url;

@@ -1,19 +1,19 @@
-import { NextResponse } from "next/server";
-import { container } from "@/@core/infra/container-registry";
-import { UpdateUserProfileUseCase } from "@/@core/application/useCases/UpdateUserProfile/UpdateUserProfileUseCase";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
-import { ViewUserProfileUseCase } from "@/@core/application/useCases/ViewUserProfile/ViewUserProfileUseCase";
-import { auth } from "@/@core/infra/auth";
+import { NextResponse } from 'next/server';
+import { container } from '@/@core/infra/container-registry';
+import { UpdateUserProfileUseCase } from '@/@core/application/useCases/UpdateUserProfile/UpdateUserProfileUseCase';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
+import { ViewUserProfileUseCase } from '@/@core/application/useCases/ViewUserProfile/ViewUserProfileUseCase';
+import { auth } from '@/@core/infra/auth';
 
 export async function GET(req: Request) {
   try {
     const viewUserProfileUseCase = container.get<ViewUserProfileUseCase>(
-      "ViewUserProfileUseCase"
+      'ViewUserProfileUseCase'
     );
 
     const session = await auth();
     if (!session) {
-      throw new Error("User not authenticated");
+      throw new Error('User not authenticated');
     }
 
     const user = await viewUserProfileUseCase.execute({
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
     return NextResponse.json(
-      { message: "Failed to retrieve user profile" },
+      { message: 'Failed to retrieve user profile' },
       { status: 500 }
     );
   }
@@ -35,12 +35,12 @@ export async function GET(req: Request) {
 export async function PUT(req: Request) {
   try {
     const updateUserProfileUseCase = container.get<UpdateUserProfileUseCase>(
-      "UpdateUserProfileUseCase"
+      'UpdateUserProfileUseCase'
     );
 
     const session = await auth();
     if (!session) {
-      throw new Error("User not authenticated");
+      throw new Error('User not authenticated');
     }
 
     const data = await req.json();
@@ -58,7 +58,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
     return NextResponse.json(
-      { message: "Failed to update user profile" },
+      { message: 'Failed to update user profile' },
       { status: 500 }
     );
   }

@@ -1,4 +1,4 @@
-import { Link } from "../entities/Link";
+import { Link } from '../entities/Link';
 
 export interface ILinkRepository {
   findLinkById(id: string): Promise<Link | null>;

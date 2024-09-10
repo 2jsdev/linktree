@@ -3,7 +3,7 @@ name: Deploy to caprover instance.
 
 # Global environment variables used throughout the workflow
 env:
-  CONTEXT_DIR: "./" # Directory context for Docker
+  CONTEXT_DIR: './' # Directory context for Docker
   IMAGE_NAME: ${{ github.repository }} # Docker image name derived from the GitHub repository name
   DOCKERFILE: ./Dockerfile # Path to Dockerfile
   DOCKER_REGISTRY: ghcr.io # Docker registry to which the image will be pushed
@@ -41,7 +41,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: 'npm'
 
       # Install project dependencies
       - run: npm ci
@@ -82,5 +82,5 @@ jobs:
         with:
           server: ${{ secrets.CAPROVER_SERVER }} # CapRover server URL
           app: ${{ secrets.APP_NAME }} # CapRover app name
-          token: "${{ secrets.APP_TOKEN }}" # CapRover app token
+          token: '${{ secrets.APP_TOKEN }}' # CapRover app token
           image: ${{ steps.meta.outputs.tags }} # Docker image to deploy

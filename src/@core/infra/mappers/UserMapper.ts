@@ -1,8 +1,8 @@
-import { User, UserProps } from "@/@core/domain/entities/User";
-import { Link } from "@/@core/domain/entities/Link";
-import { LinkMapper } from "./LinkMapper";
-import { UserId } from "@/@core/domain/value-objects/UserId";
-import { Email } from "@/@core/domain/value-objects/Email";
+import { User, UserProps } from '@/@core/domain/entities/User';
+import { Link } from '@/@core/domain/entities/Link';
+import { LinkMapper } from './LinkMapper';
+import { UserId } from '@/@core/domain/value-objects/UserId';
+import { Email } from '@/@core/domain/value-objects/Email';
 
 export class UserMapper {
   static toDomain(raw: any): User {

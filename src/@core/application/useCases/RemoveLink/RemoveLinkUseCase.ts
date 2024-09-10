@@ -1,13 +1,13 @@
-import { inject, injectable } from "inversify";
-import type { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { RemoveLinkDTO } from "./RemoveLinkDTO";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
-import { LinkId } from "@/@core/domain/value-objects/LinkId";
+import { inject, injectable } from 'inversify';
+import type { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { RemoveLinkDTO } from './RemoveLinkDTO';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
+import { LinkId } from '@/@core/domain/value-objects/LinkId';
 
 @injectable()
 export class RemoveLinkUseCase {
   constructor(
-    @inject("ILinkRepository")
+    @inject('ILinkRepository')
     private linkRepository: ILinkRepository
   ) {}
 
@@ -17,11 +17,11 @@ export class RemoveLinkUseCase {
     const link = await this.linkRepository.findLinkById(linkId.getValue());
 
     if (!link) {
-      throw new ValidationError("Link not found.");
+      throw new ValidationError('Link not found.');
     }
 
     if (link.userId !== data.userId) {
-      throw new ValidationError("You are not authorized to delete this link.");
+      throw new ValidationError('You are not authorized to delete this link.');
     }
 
     await this.linkRepository.deleteLink(link);

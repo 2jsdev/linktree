@@ -1,8 +1,8 @@
-import { injectable } from "inversify";
-import { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { Link } from "@/@core/domain/entities/Link";
-import { LinkMapper } from "../mappers/LinkMapper";
-import { prisma } from "../prisma";
+import { injectable } from 'inversify';
+import { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { Link } from '@/@core/domain/entities/Link';
+import { LinkMapper } from '../mappers/LinkMapper';
+import { prisma } from '../prisma';
 
 @injectable()
 export class PrismaLinkRepository implements ILinkRepository {
@@ -17,7 +17,7 @@ export class PrismaLinkRepository implements ILinkRepository {
   async findLinksByUserId(userId: string): Promise<Link[]> {
     const links = await prisma.link.findMany({
       where: { userId },
-      orderBy: { order: "asc" },
+      orderBy: { order: 'asc' },
     });
 
     return links.map(LinkMapper.toDomain);
@@ -53,7 +53,7 @@ export class PrismaLinkRepository implements ILinkRepository {
     const maxOrder = await prisma.link.findFirst({
       where: { userId, archived: false },
       orderBy: {
-        order: "desc",
+        order: 'desc',
       },
       select: {
         order: true,

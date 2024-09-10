@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export class UserId {
   private constructor(private readonly value: string) {
     if (!this.isValid(value)) {
-      throw new Error("Invalid User ID format");
+      throw new Error('Invalid User ID format');
     }
   }
 

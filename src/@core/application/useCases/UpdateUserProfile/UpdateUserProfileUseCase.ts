@@ -1,15 +1,15 @@
-import { inject, injectable } from "inversify";
-import type { IUserRepository } from "@/@core/domain/repositories/IUserRepository";
-import { UpdateUserProfileDTO } from "./UpdateUserProfileDTO";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
-import { User } from "@/@core/domain/entities/User";
-import { Email } from "@/@core/domain/value-objects/Email";
-import { UserId } from "@/@core/domain/value-objects/UserId";
+import { inject, injectable } from 'inversify';
+import type { IUserRepository } from '@/@core/domain/repositories/IUserRepository';
+import { UpdateUserProfileDTO } from './UpdateUserProfileDTO';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
+import { User } from '@/@core/domain/entities/User';
+import { Email } from '@/@core/domain/value-objects/Email';
+import { UserId } from '@/@core/domain/value-objects/UserId';
 
 @injectable()
 export class UpdateUserProfileUseCase {
   constructor(
-    @inject("IUserRepository")
+    @inject('IUserRepository')
     private userRepository: IUserRepository
   ) {}
 
@@ -20,15 +20,15 @@ export class UpdateUserProfileUseCase {
       userId.getValue()
     );
     if (!existingUser) {
-      throw new ValidationError("User not found.");
+      throw new ValidationError('User not found.');
     }
 
     const updatedEmail = data.email
       ? Email.create(data.email)
       : existingUser.props.email;
 
-    if (data.username && data.username.trim() === "") {
-      throw new ValidationError("Username cannot be empty.");
+    if (data.username && data.username.trim() === '') {
+      throw new ValidationError('Username cannot be empty.');
     }
 
     const updatedUser = User.create({

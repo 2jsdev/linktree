@@ -1,4 +1,4 @@
-import { appApi, TAGS } from "@/@core/infra/api/app";
+import { appApi, TAGS } from '@/@core/infra/api/app';
 
 const { USER } = TAGS;
 
@@ -16,26 +16,26 @@ export const usersApi = appApi.injectEndpoints({
     checkUsernameAvailability: build.query<{ isAvailable: boolean }, string>({
       query: (username) => ({
         url: `/users/check-username?username=${username}`,
-        method: "GET",
+        method: 'GET',
       }),
     }),
     getUserProfile: build.query<User, void>({
       query: () => ({
-        url: "/users/profile",
-        method: "GET",
+        url: '/users/profile',
+        method: 'GET',
       }),
       providesTags: (result) => [{ type: USER }],
     }),
     getPublicProfileByUsername: build.query<User, string>({
       query: (username) => ({
         url: `/users/${username}/profile`,
-        method: "GET",
+        method: 'GET',
       }),
     }),
     updateUserProfile: build.mutation<User, Partial<User>>({
       query: (data) => ({
-        url: "/users/profile",
-        method: "PUT",
+        url: '/users/profile',
+        method: 'PUT',
         body: data,
       }),
       invalidatesTags: [{ type: USER }],

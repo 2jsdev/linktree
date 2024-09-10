@@ -1,15 +1,15 @@
-import { auth } from "@/@core/infra/auth";
-import { NextResponse } from "next/server";
-import { container } from "@/@core/infra/container-registry";
-import { ReorderLinksUseCase } from "@/@core/application/useCases/ReorderLinks/ReorderLinksUseCase";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
+import { auth } from '@/@core/infra/auth';
+import { NextResponse } from 'next/server';
+import { container } from '@/@core/infra/container-registry';
+import { ReorderLinksUseCase } from '@/@core/application/useCases/ReorderLinks/ReorderLinksUseCase';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
 
 export async function PATCH(req: Request) {
   try {
     const session = await auth();
     if (!session) {
       return NextResponse.json(
-        { message: "User not authenticated" },
+        { message: 'User not authenticated' },
         { status: 401 }
       );
     }
@@ -17,7 +17,7 @@ export async function PATCH(req: Request) {
     const data = await req.json();
 
     const reorderLinksUseCase = container.get<ReorderLinksUseCase>(
-      "ReorderLinksUseCase"
+      'ReorderLinksUseCase'
     );
 
     await reorderLinksUseCase.execute({
@@ -32,7 +32,7 @@ export async function PATCH(req: Request) {
     }
 
     return NextResponse.json(
-      { message: "Failed to reorder links" },
+      { message: 'Failed to reorder links' },
       { status: 500 }
     );
   }

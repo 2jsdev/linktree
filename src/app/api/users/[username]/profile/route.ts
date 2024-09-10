@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
-import { container } from "@/@core/infra/container-registry";
-import { GetPublicProfileByUsernameUseCase } from "@/@core/application/useCases/GetPublicProfileByUsername/GetPublicProfileByUsernameUseCase";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
+import { NextResponse } from 'next/server';
+import { container } from '@/@core/infra/container-registry';
+import { GetPublicProfileByUsernameUseCase } from '@/@core/application/useCases/GetPublicProfileByUsername/GetPublicProfileByUsernameUseCase';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
 
 export async function GET(
   req: Request,
@@ -12,14 +12,14 @@ export async function GET(
 
     if (!username) {
       return NextResponse.json(
-        { message: "Username is required" },
+        { message: 'Username is required' },
         { status: 400 }
       );
     }
 
     const getPublicProfileByUsernameUseCase =
       container.get<GetPublicProfileByUsernameUseCase>(
-        "GetPublicProfileByUsernameUseCase"
+        'GetPublicProfileByUsernameUseCase'
       );
 
     const profile = await getPublicProfileByUsernameUseCase.execute({
@@ -33,7 +33,7 @@ export async function GET(
     }
 
     return NextResponse.json(
-      { message: "Failed to fetch user profile" },
+      { message: 'Failed to fetch user profile' },
       { status: 500 }
     );
   }

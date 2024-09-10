@@ -1,12 +1,12 @@
-import NextAuth from "next-auth";
-import { authConfig } from "@/@core/infra/auth";
-import { NextResponse } from "next/server";
+import NextAuth from 'next-auth';
+import { authConfig } from '@/@core/infra/auth';
+import { NextResponse } from 'next/server';
 
 const { auth } = NextAuth(authConfig);
 
-export const ROOT = "/";
-export const DEFAULT_REDIRECT = "/dashboard";
-export const LOGIN_ROUTE = "/login";
+export const ROOT = '/';
+export const DEFAULT_REDIRECT = '/dashboard';
+export const LOGIN_ROUTE = '/login';
 
 // Regular expression for dynamic routes like /username
 const PUBLIC_DYNAMIC_ROUTE_REGEX = /^\/[a-zA-Z0-9_-]+$/;
@@ -52,5 +52,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

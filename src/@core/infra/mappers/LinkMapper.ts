@@ -1,7 +1,7 @@
-import { Link } from "@/@core/domain/entities/Link";
-import { LinkId } from "@/@core/domain/value-objects/LinkId";
-import { Url } from "@/@core/domain/value-objects/Url";
-import { UserId } from "@/@core/domain/value-objects/UserId";
+import { Link } from '@/@core/domain/entities/Link';
+import { LinkId } from '@/@core/domain/value-objects/LinkId';
+import { Url } from '@/@core/domain/value-objects/Url';
+import { UserId } from '@/@core/domain/value-objects/UserId';
 
 export class LinkMapper {
   static toDomain(link: any): Link {

@@ -1,13 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const TAGS = {
-  USER: "User",
-  LINK: "Link",
+  USER: 'User',
+  LINK: 'Link',
 };
 
 export const appApi = createApi({
-  reducerPath: "app",
-  baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  reducerPath: 'app',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   keepUnusedDataFor: 60,
   tagTypes: Object.values(TAGS),
   endpoints: () => ({}),

@@ -1,19 +1,19 @@
-import { inject, injectable } from "inversify";
-import type { IUserRepository } from "@/@core/domain/repositories/IUserRepository";
-import type { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
+import { inject, injectable } from 'inversify';
+import type { IUserRepository } from '@/@core/domain/repositories/IUserRepository';
+import type { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
 import {
   GetPublicProfileByUsernameDTO,
   PublicProfileResponseDTO,
-} from "./GetPublicProfileByUsernameUseCaseDTO";
-import { UserId } from "@/@core/domain/value-objects/UserId";
+} from './GetPublicProfileByUsernameUseCaseDTO';
+import { UserId } from '@/@core/domain/value-objects/UserId';
 
 @injectable()
 export class GetPublicProfileByUsernameUseCase {
   constructor(
-    @inject("IUserRepository")
+    @inject('IUserRepository')
     private userRepository: IUserRepository,
-    @inject("ILinkRepository")
+    @inject('ILinkRepository')
     private linkRepository: ILinkRepository
   ) {}
 
@@ -24,7 +24,7 @@ export class GetPublicProfileByUsernameUseCase {
     const user = await this.userRepository.findUserByUsername(data.username);
 
     if (!user) {
-      throw new ValidationError("User not found.");
+      throw new ValidationError('User not found.');
     }
 
     const userId = UserId.create(user.id);

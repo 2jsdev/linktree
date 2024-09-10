@@ -1,14 +1,14 @@
-import { inject, injectable } from "inversify";
-import type { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { ReorderLinksDTO } from "./ReorderLinksDTO";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
-import { LinkId } from "@/@core/domain/value-objects/LinkId";
-import { UserId } from "@/@core/domain/value-objects/UserId";
+import { inject, injectable } from 'inversify';
+import type { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { ReorderLinksDTO } from './ReorderLinksDTO';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
+import { LinkId } from '@/@core/domain/value-objects/LinkId';
+import { UserId } from '@/@core/domain/value-objects/UserId';
 
 @injectable()
 export class ReorderLinksUseCase {
   constructor(
-    @inject("ILinkRepository")
+    @inject('ILinkRepository')
     private linkRepository: ILinkRepository
   ) {}
 
@@ -16,7 +16,7 @@ export class ReorderLinksUseCase {
     const userId = UserId.create(data.userId);
 
     if (!data.links || data.links.length === 0) {
-      throw new ValidationError("Links to reorder must be provided.");
+      throw new ValidationError('Links to reorder must be provided.');
     }
 
     const existingLinks = await this.linkRepository.findLinksByUserId(

@@ -1,6 +1,6 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { linksApi } from "@/@core/infra/api/linksApi";
-import { RootState } from "..";
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { linksApi } from '@/@core/infra/api/linksApi';
+import { RootState } from '..';
 
 export type Link = {
   id: string;
@@ -22,7 +22,7 @@ const initialState: LinksState = {
 };
 
 const { name, actions, reducer } = createSlice({
-  name: "links",
+  name: 'links',
   initialState,
   reducers: {
     reorderLinks(

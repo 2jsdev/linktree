@@ -1,12 +1,12 @@
-import { inject, injectable } from "inversify";
-import type { IUserRepository } from "@/@core/domain/repositories/IUserRepository";
-import { CheckUsernameAvailabilityDTO } from "./CheckUsernameAvailabilityDTO";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
+import { inject, injectable } from 'inversify';
+import type { IUserRepository } from '@/@core/domain/repositories/IUserRepository';
+import { CheckUsernameAvailabilityDTO } from './CheckUsernameAvailabilityDTO';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
 
 @injectable()
 export class CheckUsernameAvailabilityUseCase {
   constructor(
-    @inject("IUserRepository")
+    @inject('IUserRepository')
     private userRepository: IUserRepository
   ) {}
 
@@ -16,7 +16,7 @@ export class CheckUsernameAvailabilityUseCase {
     );
 
     if (existingUser) {
-      throw new ValidationError("Username is already taken.");
+      throw new ValidationError('Username is already taken.');
     }
 
     return true;

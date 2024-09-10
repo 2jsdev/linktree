@@ -1,4 +1,4 @@
-import links from "@/lib/store/slices/linksSlice";
+import links from '@/lib/store/slices/linksSlice';
 
 const rootReducer = {
   links,

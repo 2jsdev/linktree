@@ -1,5 +1,5 @@
-import { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { Link } from "@/@core/domain/entities/Link";
+import { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { Link } from '@/@core/domain/entities/Link';
 
 export class MockLinkRepository implements ILinkRepository {
   private links: Link[] = [];
@@ -23,7 +23,7 @@ export class MockLinkRepository implements ILinkRepository {
       this.links[index] = link;
       return link;
     }
-    throw new Error("Link not found");
+    throw new Error('Link not found');
   }
 
   async deleteLink(link: Link): Promise<void> {

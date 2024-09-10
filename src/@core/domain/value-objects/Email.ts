@@ -1,7 +1,7 @@
 export class Email {
   private constructor(private readonly value: string) {
     if (!this.isValid(value)) {
-      throw new Error("Invalid email format");
+      throw new Error('Invalid email format');
     }
   }
 

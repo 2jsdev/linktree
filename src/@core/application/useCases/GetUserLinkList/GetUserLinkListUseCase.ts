@@ -1,13 +1,13 @@
-import { inject, injectable } from "inversify";
-import type { ILinkRepository } from "@/@core/domain/repositories/ILinkRepository";
-import { GetUserLinkListDTO } from "./GetUserLinkListDTO";
-import { Link } from "@/@core/domain/entities/Link";
-import { UserId } from "@/@core/domain/value-objects/UserId";
+import { inject, injectable } from 'inversify';
+import type { ILinkRepository } from '@/@core/domain/repositories/ILinkRepository';
+import { GetUserLinkListDTO } from './GetUserLinkListDTO';
+import { Link } from '@/@core/domain/entities/Link';
+import { UserId } from '@/@core/domain/value-objects/UserId';
 
 @injectable()
 export class GetUserLinkListUseCase {
   constructor(
-    @inject("ILinkRepository")
+    @inject('ILinkRepository')
     private linkRepository: ILinkRepository
   ) {}
 

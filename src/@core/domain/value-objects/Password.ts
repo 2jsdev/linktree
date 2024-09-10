@@ -1,11 +1,11 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
 export class Password {
   private constructor(private readonly value: string) {}
 
   public static async create(password: string): Promise<Password> {
     if (!this.isValid(password)) {
-      throw new Error("Password does not meet security criteria");
+      throw new Error('Password does not meet security criteria');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
-import { container } from "@/@core/infra/container-registry";
-import { ValidationError } from "@/@core/domain/errors/ValidationError";
-import { CheckUsernameAvailabilityUseCase } from "@/@core/application/useCases/CheckUsernameAvailability/CheckUsernameAvailabilityUseCase";
+import { NextResponse } from 'next/server';
+import { container } from '@/@core/infra/container-registry';
+import { ValidationError } from '@/@core/domain/errors/ValidationError';
+import { CheckUsernameAvailabilityUseCase } from '@/@core/application/useCases/CheckUsernameAvailability/CheckUsernameAvailabilityUseCase';
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const username = searchParams.get("username");
+    const username = searchParams.get('username');
 
     if (!username) {
-      throw new ValidationError("Username is required.");
+      throw new ValidationError('Username is required.');
     }
 
     const checkUsernameAvailabilityUseCase =
       container.get<CheckUsernameAvailabilityUseCase>(
-        "CheckUsernameAvailabilityUseCase"
+        'CheckUsernameAvailabilityUseCase'
       );
 
     const isAvailable = await checkUsernameAvailabilityUseCase.execute({
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: error.message }, { status: 400 });
     }
     return NextResponse.json(
-      { message: "Failed to check username availability" },
+      { message: 'Failed to check username availability' },
       { status: 500 }
     );
   }

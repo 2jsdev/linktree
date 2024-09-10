@@ -1,6 +1,6 @@
-import Sidebar from "@/components/dashboard/Sidebar";
-import Header from "@/components/dashboard/Header";
-import MobilePreview from "@/components/dashboard/MobilePreview";
+import Sidebar from '@/components/dashboard/Sidebar';
+import Header from '@/components/dashboard/Header';
+import MobilePreview from '@/components/dashboard/MobilePreview';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

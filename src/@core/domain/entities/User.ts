@@ -1,6 +1,6 @@
-import { Email } from "../value-objects/Email";
-import { UserId } from "../value-objects/UserId";
-import { Link } from "./Link";
+import { Email } from '../value-objects/Email';
+import { UserId } from '../value-objects/UserId';
+import { Link } from './Link';
 
 export type UserProps = {
   id?: UserId;
@@ -22,17 +22,17 @@ export class User {
     }
 
     if (!props.email) {
-      throw new Error("Email is required.");
+      throw new Error('Email is required.');
     }
 
-    if (props.username && props.username.trim() === "") {
-      throw new Error("Username cannot be empty.");
+    if (props.username && props.username.trim() === '') {
+      throw new Error('Username cannot be empty.');
     }
 
     if (props.links && props.links.length > 0) {
       for (const link of props.links) {
         if (!(link instanceof Link)) {
-          throw new Error("All links must be valid Link instances.");
+          throw new Error('All links must be valid Link instances.');
         }
       }
     }

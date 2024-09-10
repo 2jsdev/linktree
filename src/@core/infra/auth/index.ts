@@ -1,16 +1,16 @@
-import { cookies } from "next/headers";
-import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "../prisma";
+import { cookies } from 'next/headers';
+import NextAuth, { DefaultSession, NextAuthConfig } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { prisma } from '../prisma';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
       email: string;
       username: string | null;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   interface User {
@@ -24,7 +24,7 @@ declare module "next-auth" {
 
 export const authConfig = {
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -33,16 +33,16 @@ export const authConfig = {
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
       authorization: {
         params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
         },
       },
     }),
   ],
   secret: process.env.AUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -70,7 +70,7 @@ export const authConfig = {
   events: {
     createUser: async ({ user }) => {
       const cookieStore = cookies();
-      const username = cookieStore.get("username")?.value;
+      const username = cookieStore.get('username')?.value;
 
       if (username) {
         await prisma.user.update({
@@ -78,10 +78,10 @@ export const authConfig = {
           data: { username },
         });
 
-        cookieStore.delete("username");
+        cookieStore.delete('username');
       }
 
-      console.log("User created with username:", user);
+      console.log('User created with username:', user);
     },
   },
 } satisfies NextAuthConfig;
