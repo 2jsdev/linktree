@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <div className="flex flex-1 overflow-hidden">
           {/* Page content */}
-          <main className="flex-1 p-4 overflow-y-auto">
+          <main className="flex-1 p-4 overflow-y-scroll">
             <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="mx-auto max-w-3xl">{children}</div>
             </div>

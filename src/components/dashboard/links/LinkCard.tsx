@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,12 +24,14 @@ import {
 } from '@/@core/infra/api/linksApi';
 import { selectLinkById } from '@/lib/store/slices/linksSlice';
 import { RootState } from '@/lib/store';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface LinkCardProps {
   id: string;
+  isDragging: boolean;
 }
 
-export default function LinkCard({ id }: LinkCardProps) {
+export default function LinkCard({ id, isDragging }: LinkCardProps) {
   const [updateLink] = useUpdateLinkMutation();
   const [deleteLink] = useDeleteLinkMutation();
   const [archiveLink] = useArchiveLinkMutation();
@@ -37,6 +39,12 @@ export default function LinkCard({ id }: LinkCardProps) {
   const link = useSelector((state: RootState) => selectLinkById(state)(id));
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  useEffect(() => {
+    if (isDragging && showConfirmation) {
+      setShowConfirmation(false);
+    }
+  }, [isDragging, showConfirmation]);
 
   if (!link) return null;
 
@@ -119,50 +127,59 @@ export default function LinkCard({ id }: LinkCardProps) {
           </div>
         </div>
 
-        {showConfirmation && (
-          <div className="mt-4 w-full">
-            <div className="flex justify-between items-center pt-5 pb-2 w-full border-t-2">
-              <span className="text-sm font-medium w-full text-center">
-                Delete
-              </span>
-              <div
-                className="cursor-pointer text-gray-500 hover:text-gray-700"
-                onClick={() => setShowConfirmation(false)}
-              >
-                <X className="h-5 w-5" />
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center space-x-2 sm:space-x-4 mt-2">
-              <div className="flex flex-col items-center w-1/3 p-2 md:p-4 rounded-lg">
-                <Button
-                  variant="outline"
-                  onClick={handleDelete}
-                  className="flex items-center justify-center space-x-2 w-full"
-                >
-                  <Trash className="h-5 w-5" />
-                  <span>Delete</span>
-                </Button>
-                <span className="text-xs text-gray-600 mt-2 text-center">
-                  Delete forever.
+        <AnimatePresence>
+          {showConfirmation && (
+            <motion.div
+              layout
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.7, ease: 'easeInOut' }}
+              className="mt-4 w-full"
+            >
+              <div className="flex justify-between items-center pt-5 pb-2 w-full border-t-2">
+                <span className="text-sm font-medium w-full text-center">
+                  Delete
                 </span>
+                <div
+                  className="cursor-pointer text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowConfirmation(false)}
+                >
+                  <X className="h-5 w-5" />
+                </div>
               </div>
 
-              <div className="flex flex-col items-center w-2/3 p-2 md:p-4 rounded-lg">
-                <Button
-                  onClick={handleArchive}
-                  className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
-                >
-                  <Archive className="h-5 w-5" />
-                  <span>Archive</span>
-                </Button>
-                <span className="text-xs text-gray-600 mt-2 text-center">
-                  Reduce clutter, keep your analytics and restore anytime.
-                </span>
+              <div className="flex justify-between items-center space-x-2 sm:space-x-4 mt-2">
+                <div className="flex flex-col items-center w-1/3 p-2 md:p-4 rounded-lg">
+                  <Button
+                    variant="outline"
+                    onClick={handleDelete}
+                    className="flex items-center justify-center space-x-2 w-full"
+                  >
+                    <Trash className="h-5 w-5" />
+                    <span>Delete</span>
+                  </Button>
+                  <span className="text-xs text-gray-600 mt-2 text-center">
+                    Delete forever.
+                  </span>
+                </div>
+
+                <div className="flex flex-col items-center w-2/3 p-2 md:p-4 rounded-lg">
+                  <Button
+                    onClick={handleArchive}
+                    className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
+                  >
+                    <Archive className="h-5 w-5" />
+                    <span>Archive</span>
+                  </Button>
+                  <span className="text-xs text-gray-600 mt-2 text-center">
+                    Reduce clutter, keep your analytics and restore anytime.
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </CardContent>
     </Card>
   );

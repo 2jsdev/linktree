@@ -20,6 +20,7 @@ import {
   useRestoreLinkMutation,
 } from '@/@core/infra/api/linksApi';
 import { selectLinkById } from '@/lib/store/slices/linksSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ArchivedLinkCardProps {
   id: string;
@@ -63,6 +64,7 @@ export default function ArchivedLinkCard({ id }: ArchivedLinkCardProps) {
         return <LinkIcon className="h-5 w-5" />;
     }
   };
+
   return (
     <Card className="bg-background">
       <CardContent className="flex flex-col p-4">
@@ -96,81 +98,94 @@ export default function ArchivedLinkCard({ id }: ArchivedLinkCardProps) {
           </div>
         </div>
 
-        {/* Confirmación de restauración */}
-        {showConfirmation === 'restore' && (
-          <div className="flex flex-col mt-4 w-full">
-            <div className="flex justify-between items-center pt-5 pb-2 w-full border-t-2">
-              <span className="text-sm font-medium w-full text-center">
-                Restore
-              </span>
-              <div
-                className="cursor-pointer text-gray-500 hover:text-gray-700"
-                onClick={() => setShowConfirmation(null)}
-              >
-                <X className="h-5 w-5" />
+        {/* Animaciones con Framer Motion */}
+        <AnimatePresence>
+          {showConfirmation === 'restore' && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              className="flex flex-col mt-4 w-full"
+            >
+              <div className="flex justify-between items-center pt-5 pb-2 w-full border-t-2">
+                <span className="text-sm font-medium w-full text-center">
+                  Restore
+                </span>
+                <div
+                  className="cursor-pointer text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowConfirmation(null)}
+                >
+                  <X className="h-5 w-5" />
+                </div>
               </div>
-            </div>
 
-            <span className="self-center mb-4 text-xs text-gray-600 mt-2 text-center">
-              Restore this link to your Wookielink
-            </span>
-
-            <div className="flex justify-between items-center space-x-4 mt-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowConfirmation(null)}
-                className="flex items-center justify-center space-x-2 w-full"
-              >
-                <span>Cancel</span>
-              </Button>
-              <Button
-                onClick={handleRestore}
-                className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
-              >
-                <Archive className="h-5 w-5" />
-                <span>Restore</span>
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {/* Confirmación de borrado */}
-        {showConfirmation === 'delete' && (
-          <div className="flex flex-col mt-4 w-full">
-            <div className="flex justify-between items-center pt-5 pb-2 w-full border-t-2">
-              <span className="text-sm font-medium w-full text-center">
-                Delete
+              <span className="self-center mb-4 text-xs text-gray-600 mt-2 text-center">
+                Restore this link to your Wookielink
               </span>
-              <div
-                className="cursor-pointer text-gray-500 hover:text-gray-700"
-                onClick={() => setShowConfirmation(null)}
-              >
-                <X className="h-5 w-5" />
+
+              <div className="flex justify-between items-center space-x-4 mt-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowConfirmation(null)}
+                  className="flex items-center justify-center space-x-2 w-full"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button
+                  onClick={handleRestore}
+                  className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
+                >
+                  <Archive className="h-5 w-5" />
+                  <span>Restore</span>
+                </Button>
               </div>
-            </div>
+            </motion.div>
+          )}
 
-            <span className="self-center mb-4 text-xs text-gray-600 mt-2 text-center">
-              Permanently delete this link and its analytics data?
-            </span>
+          {showConfirmation === 'delete' && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              className="flex flex-col mt-4 w-full"
+            >
+              <div className="flex justify-between items-center pt-5 pb-2 w-full border-t-2">
+                <span className="text-sm font-medium w-full text-center">
+                  Delete
+                </span>
+                <div
+                  className="cursor-pointer text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowConfirmation(null)}
+                >
+                  <X className="h-5 w-5" />
+                </div>
+              </div>
 
-            <div className="flex justify-between items-center space-x-4 mt-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowConfirmation(null)}
-                className="flex items-center justify-center space-x-2 w-full"
-              >
-                <span>Cancel</span>
-              </Button>
-              <Button
-                onClick={handleDelete}
-                className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
-              >
-                <Trash className="h-5 w-5" />
-                <span>Delete</span>
-              </Button>
-            </div>
-          </div>
-        )}
+              <span className="self-center mb-4 text-xs text-gray-600 mt-2 text-center">
+                Permanently delete this link and its analytics data?
+              </span>
+
+              <div className="flex justify-between items-center space-x-4 mt-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowConfirmation(null)}
+                  className="flex items-center justify-center space-x-2 w-full"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button
+                  onClick={handleDelete}
+                  className="flex items-center justify-center space-x-2 w-full bg-purple-600 text-white hover:bg-purple-700 py-2 rounded-lg"
+                >
+                  <Trash className="h-5 w-5" />
+                  <span>Delete</span>
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </CardContent>
     </Card>
   );

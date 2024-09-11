@@ -4,7 +4,7 @@ import LinkList from '@/components/dashboard/links/LinkList';
 
 const Page = () => {
   return (
-    <div className="flex-1 p-8">
+    <div className="flex-1 px-8">
       <Header />
       <AddLinkButton />
       <LinkList />

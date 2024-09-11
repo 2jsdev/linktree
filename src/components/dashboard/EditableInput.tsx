@@ -24,7 +24,7 @@ const EditableInput: React.FC<EditableInputProps> = ({
     <div className="relative flex items-center w-full">
       {isEditing ? (
         <input
-          className="w-full border-none focus:ring-0 focus:outline-none bg-background"
+          className="w-full border-none focus:ring-0 focus:outline-none bg-background text-sm md:text-base lg:text-lg"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onBlur={handleSave}

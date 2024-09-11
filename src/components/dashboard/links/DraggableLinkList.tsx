@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   DndContext,
@@ -28,6 +28,8 @@ const DraggableLinkList: React.FC<DraggableLinkListProps> = ({ links }) => {
   const dispatch = useDispatch();
   const [reorderLinksMutation] = useReorderLinksMutation();
 
+  const [isDragging, setIsDragging] = useState(false);
+
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
@@ -36,6 +38,10 @@ const DraggableLinkList: React.FC<DraggableLinkListProps> = ({ links }) => {
     })
   );
 
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
   const handleDragEnd = async ({
     active,
     over,
@@ -43,6 +49,8 @@ const DraggableLinkList: React.FC<DraggableLinkListProps> = ({ links }) => {
     active: any;
     over: any;
   }) => {
+    setIsDragging(false);
+
     if (!over) return;
 
     if (active.id !== over.id) {
@@ -65,13 +73,14 @@ const DraggableLinkList: React.FC<DraggableLinkListProps> = ({ links }) => {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
       <SortableContext items={links} strategy={verticalListSortingStrategy}>
         <div className="space-y-4">
           {links.map((link) => (
             <SortableItem key={link.id} id={link.id}>
-              <LinkCard id={link.id} />
+              <LinkCard id={link.id} isDragging={isDragging} />
             </SortableItem>
           ))}
         </div>

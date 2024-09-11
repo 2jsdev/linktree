@@ -28,7 +28,7 @@ const LinkList = () => {
           <Skeleton className="w-48 h-8" />
         </div>
         {[...Array(3)].map((_, index) => (
-          <Skeleton key={index} className="w-full h-16 rounded-lg" />
+          <Skeleton key={index} className="w-full h-20 rounded-lg" />
         ))}
       </div>
     );

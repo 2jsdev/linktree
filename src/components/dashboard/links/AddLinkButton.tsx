@@ -2,23 +2,26 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import CreateLinkModal from './CreateLinkModal';
+import CreateLinkForm from './CreateLinkForm';
 
 const AddLinkButton = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openForm = () => setIsFormOpen(true);
+  const closeForm = () => setIsFormOpen(false);
 
   return (
     <>
-      <Button
-        className="mb-6 w-full bg-purple-600 text-white hover:bg-purple-700"
-        onClick={openModal}
-      >
-        + Add link
-      </Button>
-      <CreateLinkModal isOpen={isModalOpen} onClose={closeModal} />
+      {!isFormOpen ? (
+        <Button
+          className="mb-6 w-full bg-purple-600 text-white hover:bg-purple-700"
+          onClick={openForm}
+        >
+          + Add link
+        </Button>
+      ) : (
+        <CreateLinkForm onClose={closeForm} />
+      )}
     </>
   );
 };
