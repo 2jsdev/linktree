@@ -6,6 +6,8 @@ import UserNotFound from '@/components/dashboard/users/UserNotFound';
 import UserInfo from '@/components/dashboard/users/UserInfo';
 import LinkList from '@/components/dashboard/users/LinkList';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { ExternalLink } from 'lucide-react';
 
 export default function UserPublicProfilePage({
   params,
@@ -35,9 +37,28 @@ export default function UserPublicProfilePage({
   if (!userProfile) return <UserNotFound />;
 
   return (
-    <div className="flex flex-col items-center w-full max-w-md mx-auto pt-12 px-4">
-      <UserInfo userProfile={userProfile} />
-      <LinkList links={userProfile.links || []} />
-    </div>
+    <>
+      <div className="flex flex-col items-center w-full max-w-md mx-auto pt-12 px-4 pb-32">
+        <UserInfo userProfile={userProfile} />
+        <LinkList links={userProfile.links || []} />
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background via-background/80 to-transparent">
+        <div className="max-w-md mx-auto flex flex-col items-center">
+          <Button
+            variant="outline"
+            className="w-auto px-6 py-2 bg-primary text-primary-foreground dark:bg-primary-foreground dark:text-primary border-none rounded-full shadow-lg flex items-center space-x-2 hover:bg-primary-foreground hover:text-primary dark:hover:bg-primary dark:hover:text-primary-foreground transition-all duration-300"
+            onClick={() => (window.location.href = 'https://wookiel.ink/')}
+          >
+            <span className="text-sm font-semibold">
+              Join {userProfile.username} on Wookielink
+            </span>
+            <ExternalLink className="w-4 h-4 ml-2" />
+          </Button>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Create your own Wookielink page
+          </p>
+        </div>
+      </div>
+    </>
   );
 }
