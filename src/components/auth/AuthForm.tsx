@@ -12,12 +12,12 @@ export default function AuthForm({ isSignup }: AuthFormProps) {
     <div className="w-full max-w-md mx-auto space-y-8">
       <div className="text-center">
         <h1 className="text-3xl font-bold">
-          {isSignup ? 'Create a Linktree for free' : 'Welcome back!'}
+          {isSignup ? 'Create a Wookielink for free' : 'Welcome back!'}
         </h1>
         <p className="text-muted-foreground">
           {isSignup
-            ? 'Join 50M+ people using Linktree to curate links, grow their audience, and sell products.'
-            : 'Log in to your Linktree'}
+            ? 'Join 50M+ people using Wookielink to curate links, grow their audience, and sell products.'
+            : 'Log in to your Wookielink'}
         </p>
       </div>
 

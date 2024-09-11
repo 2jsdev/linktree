@@ -112,7 +112,7 @@ export default function ArchivedLinkCard({ id }: ArchivedLinkCardProps) {
             </div>
 
             <span className="self-center mb-4 text-xs text-gray-600 mt-2 text-center">
-              Restore this link to your Linktree
+              Restore this link to your Wookielink
             </span>
 
             <div className="flex justify-between items-center space-x-4 mt-2">

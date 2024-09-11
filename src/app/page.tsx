@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,8 @@ export default function LandingPage() {
   const [username, setUsername] = useState('');
   const [debouncedUsername, setDebouncedUsername] = useState('');
 
-  // Prefix always fixed as 'linktree.2jsdev.me/'
-  const prefix = 'linktree.2jsdev.me/';
+  // Prefix always fixed as 'wookiel.ink/'
+  const prefix = 'wookiel.ink/';
 
   const { data, isLoading, isError } = useCheckUsernameAvailabilityQuery(
     debouncedUsername,
@@ -47,8 +48,14 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <header className="w-full py-4 px-4 sm:px-6 lg:px-8 bg-background border-b">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-primary">
-            Linktree
+          <Link href="/" className="flex items-center space-x-2">
+            <Image
+              src="/wookie.png"
+              alt="Wookielink Logo"
+              width={30}
+              height={30}
+            />
+            <span className="text-2xl font-bold text-primary">Wookielink</span>
           </Link>
           <div className="flex items-center space-x-4">
             <Button variant="ghost" onClick={() => handleRedirect()}>
@@ -82,7 +89,7 @@ export default function LandingPage() {
                 placeholder="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pl-[155px] pr-10"
+                className="w-full pl-[103px] pr-10"
                 aria-label="Enter your desired username"
                 autoComplete="off"
               />
@@ -102,7 +109,7 @@ export default function LandingPage() {
               onClick={() => handleRedirect('signup')}
               disabled={isButtonDisabled}
             >
-              Claim your Linktree
+              Claim your Wookielink
             </Button>
           </div>
           {username && !isLoading && data && (

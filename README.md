@@ -1,8 +1,8 @@
-# Linktree Clone
+# Wookielink
 
 ## Introduction
 
-Welcome to the **Linktree Clone**, a personalized landing page builder that empowers users to showcase all their important links—from social media profiles to websites—in one beautiful, easy-to-manage page. This project is not just a simple clone; it’s built with scalability, maintainability, and clean architecture at its core, utilizing cutting-edge web technologies to ensure seamless user experiences and smooth deployments.
+Welcome to the **Wookielink**, a personalized landing page builder that empowers users to showcase all their important links—from social media profiles to websites—in one beautiful, easy-to-manage page. This project is not just a simple clone; it’s built with scalability, maintainability, and clean architecture at its core, utilizing cutting-edge web technologies to ensure seamless user experiences and smooth deployments.
 
 ## Tech Stack
 
@@ -82,4 +82,4 @@ The project includes a `.env.example` file, detailing all necessary environment 
 
 ## Wrap-Up
 
-With this Linktree Clone, you gain a robust and scalable platform built with modern web technologies and designed for maintainability. Dive in, explore, and contribute—your feedback is always welcome!
+With this Wookielink, you gain a robust and scalable platform built with modern web technologies and designed for maintainability. Dive in, explore, and contribute—your feedback is always welcome!

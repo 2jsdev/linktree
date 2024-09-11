@@ -30,7 +30,7 @@ export default function Login() {
         {/* Navbar */}
         <div className="flex items-center justify-between p-4 lg:p-6">
           <Link href="/" className="text-2xl font-bold text-primary">
-            Linktree
+            Wookielink
           </Link>
         </div>
 
